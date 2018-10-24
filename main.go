@@ -17,8 +17,8 @@ const (
 	//Needs to update
 	//PROJECT_ID = "around-xxx"
 	//BT_INSTANCES = "around-post"
-	//Needs to update this URL if you deploy it to cloud
-	ES_URL = "http://35.237.81.7:9200/"
+	//Needs to update this URL if deploy it to cloud
+	ES_URL = "http://35.231.195.31:9200/"
 )
 
 type Location struct {
@@ -107,7 +107,7 @@ func saveToES(p *Post, id string){
 		panic(err)
 		return
 	}
-	fmt.Print("Post is saved to Index: %s\n", p.Message)
+	fmt.Printf("Post is saved to Index: %s \n", p.Message)
 }
 
 
@@ -161,7 +161,7 @@ func handlerSearch(w http.ResponseWriter, r *http.Request) {
 	for _, item := range searchResult.Each(reflect.TypeOf(typ)){	// instances of
 		p := item.(Post)	// p = (Post) item
 		fmt.Printf("Post by %s: %s at lat %v and lon %v\n", p.User, p.Message, p.Location.Lat, p.Location.Lon)
-		// (student homework) : Perform filtering base based on keywords such as web spam etc.
+		//Perform filtering base based on keywords such as web spam etc.
 		ps = append(ps, p)
 	}
 	js, err := json.Marshal(ps)
