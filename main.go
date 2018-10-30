@@ -9,16 +9,19 @@ import (
 	"reflect"
 	"net/http"
 	"github.com/pborman/uuid"
+	"cloud.google.com/go/bigtable"
+	"context"
 )
 const (
 	DISTANCE = "200km"
 	INDEX = "around"
 	TYPE = "post"
 	//Needs to update
-	//PROJECT_ID = "around-xxx"
-	//BT_INSTANCES = "around-post"
+	PROJECT_ID = "around-220220"
+	BT_INSTANCE = "around-post"
 	//Needs to update this URL if deploy it to cloud
 	ES_URL = "http://35.231.195.31:9200/"
+
 )
 
 type Location struct {
@@ -86,6 +89,35 @@ func handlerPost(w http.ResponseWriter, r *http.Request) {
 	// Save to ES
 	saveToES(&p, id)
 	//fmt.Fprintf(w, "Post received: %s\n", p.Message)
+
+	ctx := context.Background()
+	// you must update project name here
+	bt_client, err := bigtable.NewClient(ctx, PROJECT_ID, BT_INSTANCE)
+	if err != nil {
+		panic(err)
+		return
+	}
+	// TODO (student questions) save Post into BT as well
+	// open table
+	tbl := bt_client.Open("post")
+	// Create mutation
+	mut := bigtable.NewMutation()
+
+	mut.Set("post", "user", bigtable.Now(), []byte(p.User))
+	mut.Set("post", "message", bigtable.Now(), []byte(p.Message))
+
+	mut.Set("location", "lat", bigtable.Now(), []byte(strconv.FormatFloat(p.Location.Lat,'f',-1,64)))
+	mut.Set("location", "lon", bigtable.Now(), []byte(strconv.FormatFloat(p.Location.Lon,'f',-1,64)))
+
+	err = tbl.Apply(ctx, "com.google.cloud", mut)
+	if (err != nil) {
+		panic(err)
+		return
+	}
+
+	fmt.Printf("Post is saved to BigTable %s/n", p.Message)
+
+
 }
 func saveToES(p *Post, id string){
 	// Create a client
