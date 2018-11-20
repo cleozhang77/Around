@@ -95,8 +95,22 @@ func addUser(username, password string) bool {
 	return true
 }
 
+func setupResponse(w *http.ResponseWriter, req *http.Request) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	(*w).Header().Set("Access-Control-Allow-Methods", "POST")
+	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+}
+
 // if signup is successful, a new session is created
 func signupHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("fuck")
+	fmt.Println((*r).Method)
+	/*if (*r).Method == "OPTIONS" { // handle preflight request
+		setupResponse(&w, r)
+		fmt.Println(" get into options case")
+		return
+	}*/
+
 	fmt.Println("Received one signup request")
 
 	decoder := json.NewDecoder(r.Body)
@@ -119,7 +133,7 @@ func signupHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w,"Empty password or username", http.StatusInternalServerError)
 	}
 
-	w.Header().Set("Content-Type", "text/plain")
+	w.Header().Set("Content-Type", "text/json")
 	w.Header().Set("Access-Control-Allow-Origin","*")
 }
 
