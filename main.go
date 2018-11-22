@@ -93,7 +93,7 @@ func main() {
     })
 
     r.Handle("/post", jwtMiddleware.Handler(http.HandlerFunc(handlerPost))).Methods("POST")
-    r.Handle("/search", jwtMiddleware.Handler(http.HandlerFunc(handlerSearch))).Methods("GET")
+    r.Handle("/search", jwtMiddleware.Handler(http.HandlerFunc(handlerSearch))).Methods("GET", "OPTIONS")
     r.Handle("/login", http.HandlerFunc(loginHandler)).Methods("POST")
     r.Handle("/signup", http.HandlerFunc(signupHandler)).Methods("POST", "OPTIONS")
 
@@ -234,6 +234,14 @@ func saveToGCS(ctx context.Context, r io.Reader, bucket, name string)(*storage.O
 
 
 func handlerSearch(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("enter handler Search")
+	fmt.Println((*r).Method)
+	if (*r).Method == "OPTIONS" { // handle preflight request
+		//setupResponse(&w, r)
+		fmt.Println(" get into options case")
+		return
+	}
+
 	fmt.Println("Received one request for search")
 	lat,_ := strconv.ParseFloat(r.URL.Query().Get("lat"),64)
 	lon,_ := strconv.ParseFloat(r.URL.Query().Get("lon"),64)
@@ -295,8 +303,6 @@ func handlerSearch(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Write(js)
-
-
 	/*
 	// Return a fake post
 	p := &Post {

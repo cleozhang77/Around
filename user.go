@@ -8,6 +8,7 @@ import (
 	"gopkg.in/olivere/elastic.v3"
 	"net/http"
 	"reflect"
+	"strings"
 	"time"
 )
 
@@ -97,21 +98,46 @@ func addUser(username, password string) bool {
 
 func setupResponse(w *http.ResponseWriter, req *http.Request) {
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
-	(*w).Header().Set("Access-Control-Allow-Methods", "POST")
+	(*w).Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 }
+// formatRequest generates ascii representation of a request
+func formatRequest(r *http.Request) string {
+	// Create return string
+	var request []string
+	// Add the request string
+	url := fmt.Sprintf("%v %v %v", r.Method, r.URL, r.Proto)
+	request = append(request, url)
+	// Add the host
+	request = append(request, fmt.Sprintf("Host: %v", r.Host))
+	// Loop through headers
+	for name, headers := range r.Header {
+		name = strings.ToLower(name)
+		for _, h := range headers {
+			request = append(request, fmt.Sprintf("%v: %v", name, h))
+		}
+	}
 
+	// If this is a POST, add post data
+	if (*r).Method == "POST" {
+		r.ParseForm()
+		request = append(request, "\n")
+		request = append(request, r.Form.Encode())
+	}
+	// Return the request as a string
+	return strings.Join(request, "\n")
+}
 // if signup is successful, a new session is created
 func signupHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("fuck")
-	fmt.Println((*r).Method)
-	/*if (*r).Method == "OPTIONS" { // handle preflight request
+	if (*r).Method == "OPTIONS" { // handle preflight request
 		setupResponse(&w, r)
 		fmt.Println(" get into options case")
 		return
-	}*/
+	}
 
 	fmt.Println("Received one signup request")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
 
 	decoder := json.NewDecoder(r.Body)
 	var u User
@@ -120,10 +146,23 @@ func signupHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	/*type Message struct {
+		status int64
+		result string
+	}*/
+	//m := Message{200,"user succefully added"}
+	resultMap := map[string]string{"result": "success"}
+	j, err := json.Marshal(resultMap)
+	if err != nil {
+		panic(err)
+		return
+	}
+
 	if u.Username != "" && u.Password != "" {
 		if addUser(u.Username, u.Password) {
 			fmt.Println("User added successfully.")
-			w.Write([]byte("User added successfully"))
+			//w.Write(json.Marshal([]byte("User added successfully"))
+			w.Write(j)
 		} else {
 			fmt.Println("Failed to add a new user.")
 			http.Error(w, "Failed to add a new user", http.StatusInternalServerError)
@@ -133,8 +172,8 @@ func signupHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w,"Empty password or username", http.StatusInternalServerError)
 	}
 
-	w.Header().Set("Content-Type", "text/json")
-	w.Header().Set("Access-Control-Allow-Origin","*")
+	//w.Header().Set("Content-Type", "application/json")
+	//w.Header().Set("Access-Control-Allow-Origin","*")
 }
 
 // if login is successful, a new token is created.

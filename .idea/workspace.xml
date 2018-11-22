@@ -21,31 +21,32 @@
     <session id="1145191224">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="4" />
+          <entry key="project.closed" value="5" />
           <entry key="project.open.time.2" value="3" />
-          <entry key="project.open.time.3" value="1" />
+          <entry key="project.open.time.3" value="2" />
           <entry key="project.open.time.8" value="1" />
-          <entry key="project.opened" value="5" />
+          <entry key="project.opened" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="go" value="4932" />
+          <entry key="go" value="5415" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Go" value="4810" />
+          <entry key="Go" value="5293" />
           <entry key="PLAIN_TEXT" value="122" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="go" value="1" />
+          <entry key="go" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
+          <entry key="Go" value="3" />
           <entry key="PLAIN_TEXT" value="1" />
         </counts>
       </usages-collector>
@@ -56,22 +57,34 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" column="33" lean-forward="true" selection-start-line="17" selection-start-column="33" selection-end-line="17" selection-end-column="33" />
+            <state relative-caret-position="3234">
+              <caret line="300" column="5" lean-forward="true" selection-start-line="300" selection-start-column="5" selection-end-line="300" selection-end-column="5" />
+              <folding>
+                <element signature="e#14#366#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file:///usr/local/go/src/net/http/server.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="186">
+              <caret line="1821" column="9" lean-forward="true" selection-start-line="1821" selection-start-column="9" selection-end-line="1821" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/user.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1815">
-              <caret line="121" lean-forward="true" selection-start-line="121" selection-end-line="121" />
+            <state relative-caret-position="409">
+              <caret line="142" column="14" lean-forward="true" selection-start-line="142" selection-start-column="14" selection-end-line="142" selection-end-column="14" />
               <folding>
-                <element signature="e#15#142#0" expanded="true" />
+                <element signature="e#15#153#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -79,11 +92,20 @@
       </file>
     </leaf>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
   <component name="FindInProjectRecents">
     <findStrings>
       <find>checkUser</find>
       <find>BUCKET</find>
       <find>signuphand</find>
+      <find>marshal</find>
+      <find>setupResponse</find>
     </findStrings>
   </component>
   <component name="GOROOT" path="/usr/local/go" />
@@ -96,8 +118,9 @@
         <option value="$PROJECT_DIR$/app.yaml" />
         <option value="$PROJECT_DIR$/dataflow/pom.xml" />
         <option value="$PROJECT_DIR$/dataflow/src/main/java/com/around/PostDump.java" />
-        <option value="$PROJECT_DIR$/user.go" />
+        <option value="$PROJECT_DIR$/newuser.go" />
         <option value="$PROJECT_DIR$/main.go" />
+        <option value="$PROJECT_DIR$/user.go" />
       </list>
     </option>
   </component>
@@ -114,11 +137,11 @@
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="454" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1938" />
     <option name="y" value="23" />
-    <option name="width" value="824" />
-    <option name="height" value="732" />
+    <option name="width" value="1262" />
+    <option name="height" value="1012" />
   </component>
   <component name="ProjectReloadState">
     <option name="STATE" value="1" />
@@ -128,6 +151,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -140,14 +164,14 @@
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="SearchEverywhereHistoryKey" value="reflect&#9;null&#9;null&#10;console&#9;ACTION&#9;Groovy.Console&#10;setup SDK&#9;null&#9;null&#10;plugin&#9;ACTION&#9;WelcomeScreen.DevelopPlugins" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542565838045" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542875147399" />
     <property name="go.gopath.indexing.explicitly.defined" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="SDKs" />
@@ -428,12 +452,13 @@
       <workItem from="1542143756803" duration="29000" />
       <workItem from="1542143821191" duration="8131000" />
       <workItem from="1542468675905" duration="14145000" />
-      <workItem from="1542662703824" duration="5580000" />
+      <workItem from="1542662703824" duration="9549000" />
+      <workItem from="1542830930526" duration="10071000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29089000" />
+    <option name="totallyTimeSpent" value="43129000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -445,10 +470,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="454" y="23" width="824" height="732" extended-state="0" />
+    <frame x="1280" y="23" width="1920" height="1012" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18414322" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.07827476" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Palette&#9;" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -463,7 +488,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3291536" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" weight="0.32704404" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.45" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.31304348" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32861635" />
       <window_info anchor="bottom" id="Database Changes" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -521,20 +546,40 @@
     <entry file="file://$PROJECT_DIR$/dataflow/src/main/java/com/around/javaclass.properties" />
     <entry file="file://$PROJECT_DIR$/dataflow/src/main/java/com/around/PostDump.java" />
     <entry file="file://$PROJECT_DIR$/dataflow/pom.xml" />
-    <entry file="file://$PROJECT_DIR$/user.go">
+    <entry file="file://$PROJECT_DIR$/newuser.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1815">
-          <caret line="121" lean-forward="true" selection-start-line="121" selection-end-line="121" />
+        <state relative-caret-position="155">
+          <caret line="150" lean-forward="true" selection-start-line="150" selection-end-line="150" />
           <folding>
-            <element signature="e#15#142#0" expanded="true" />
+            <element signature="e#13#150#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/go/src/net/http/server.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="1821" column="9" lean-forward="true" selection-start-line="1821" selection-start-column="9" selection-end-line="1821" selection-end-column="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="33" lean-forward="true" selection-start-line="17" selection-start-column="33" selection-end-line="17" selection-end-column="33" />
+        <state relative-caret-position="3234">
+          <caret line="300" column="5" lean-forward="true" selection-start-line="300" selection-start-column="5" selection-end-line="300" selection-end-column="5" />
+          <folding>
+            <element signature="e#14#366#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="409">
+          <caret line="142" column="14" lean-forward="true" selection-start-line="142" selection-start-column="14" selection-end-line="142" selection-end-column="14" />
+          <folding>
+            <element signature="e#15#153#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
