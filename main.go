@@ -92,9 +92,9 @@ func main() {
       SigningMethod: jwt.SigningMethodHS256,
     })
 
-    r.Handle("/post", jwtMiddleware.Handler(http.HandlerFunc(handlerPost))).Methods("POST")
+    r.Handle("/post", jwtMiddleware.Handler(http.HandlerFunc(handlerPost))).Methods("POST", "OPTIONS")
     r.Handle("/search", jwtMiddleware.Handler(http.HandlerFunc(handlerSearch))).Methods("GET", "OPTIONS")
-    r.Handle("/login", http.HandlerFunc(loginHandler)).Methods("POST")
+    r.Handle("/login", http.HandlerFunc(loginHandler)).Methods("POST", "OPTIONS")
     r.Handle("/signup", http.HandlerFunc(signupHandler)).Methods("POST", "OPTIONS")
 
     http.Handle("/", r)
@@ -102,6 +102,15 @@ func main() {
 }
 
 func handlerPost(w http.ResponseWriter, r *http.Request) {
+	if (*r).Method == "OPTIONS" { // handle preflight request
+		setupResponse(&w, r)
+		fmt.Println(" get into handlerPost preflight options case")
+		return
+	}
+
+	//w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	// other codes
 	user := r.Context().Value("user")
 	claims := user.(*jwt.Token).Claims
@@ -234,7 +243,16 @@ func saveToGCS(ctx context.Context, r io.Reader, bucket, name string)(*storage.O
 
 
 func handlerSearch(w http.ResponseWriter, r *http.Request) {
+	if (*r).Method == "OPTIONS" { // handle preflight request
+		setupResponse(&w, r)
+		fmt.Println(" get into handlerSearch preflight options case")
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	fmt.Println("enter handler Search")
+
 	fmt.Println((*r).Method)
 	if (*r).Method == "OPTIONS" { // handle preflight request
 		//setupResponse(&w, r)
@@ -250,7 +268,8 @@ func handlerSearch(w http.ResponseWriter, r *http.Request) {
 	if val := r.URL.Query().Get("range"); val != "" {
 		ran = val+"km"
 	}
-	fmt.Fprintf(w, "Search received : lat = %f, lat = %f, range = %s\n", lat, lon, ran)
+	//fmt.Fprintf(w, "Search received : lat = %f, lat = %f, range = %s\n", lat, lon, ran)
+	//fmt.Println("Search received : lat = %f, lat = %f, range = %s\n", lat, lon, ran)
 
 	// Create a client
 	client, err := elastic.NewClient(elastic.SetURL(ES_URL), elastic.SetSniff(false))
@@ -300,8 +319,7 @@ func handlerSearch(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	w.Write(js)
 	/*
 	// Return a fake post
