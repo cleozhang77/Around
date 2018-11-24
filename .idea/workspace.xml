@@ -4,7 +4,6 @@
     <list default="true" id="90b55069-a55e-4254-911a-3b4163cb7ff3" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/user.go" afterDir="false" />
     </list>
     <ignored path="service.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,8 +24,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="56">
-              <caret line="271" column="6" selection-start-line="271" selection-start-column="6" selection-end-line="271" selection-end-column="6" />
+            <state relative-caret-position="177">
+              <caret line="289" column="12" lean-forward="true" selection-start-line="289" selection-start-column="12" selection-end-line="289" selection-end-column="12" />
               <folding>
                 <element signature="e#14#366#0" expanded="true" />
               </folding>
@@ -37,8 +36,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/user.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
-              <caret line="176" column="44" lean-forward="true" selection-start-line="176" selection-start-column="39" selection-end-line="176" selection-end-column="44" />
+            <state relative-caret-position="1126">
+              <caret line="176" column="44" selection-start-line="176" selection-start-column="39" selection-end-line="176" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -59,6 +58,7 @@
       <find>signuphand</find>
       <find>marshal</find>
       <find>setupResponse</find>
+      <find>post by</find>
     </findStrings>
   </component>
   <component name="GOROOT" path="/usr/local/go" />
@@ -84,10 +84,10 @@
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="258" />
+  <component name="ProjectFrameBounds" extendedState="1">
+    <option name="x" value="414" />
     <option name="y" value="42" />
-    <option name="width" value="1164" />
+    <option name="width" value="1008" />
     <option name="height" value="767" />
   </component>
   <component name="ProjectReloadState">
@@ -118,7 +118,7 @@
     <property name="SearchEverywhereHistoryKey" value="reflect&#9;null&#9;null&#10;console&#9;ACTION&#9;Groovy.Console&#10;setup SDK&#9;null&#9;null&#10;plugin&#9;ACTION&#9;WelcomeScreen.DevelopPlugins" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542999879323" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543091927157" />
     <property name="configurable.Global.GOPATH.is.expanded" value="true" />
     <property name="configurable.Module.GOPATH.is.expanded" value="false" />
     <property name="configurable.Project.GOPATH.is.expanded" value="true" />
@@ -402,12 +402,12 @@
       <workItem from="1542920949274" duration="217000" />
       <workItem from="1542921270256" duration="505000" />
       <workItem from="1542922104324" duration="491000" />
-      <workItem from="1542922677823" duration="7470000" />
+      <workItem from="1542922677823" duration="10771000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="51812000" />
+    <option name="totallyTimeSpent" value="55113000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -419,10 +419,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="258" y="42" width="1164" height="767" extended-state="0" />
-    <editor active="true" />
+    <frame x="414" y="42" width="1008" height="767" extended-state="1" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4988662" visible="true" weight="0.2228164" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4988662" visible="true" weight="0.25879917" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Palette&#9;" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -437,7 +436,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3291536" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.500813" side_tool="true" weight="0.34666666" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.499187" visible="true" weight="0.34666666" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.499187" visible="true" weight="0.40444446" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32861635" />
       <window_info anchor="bottom" id="Database Changes" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
@@ -486,15 +485,15 @@
     <entry file="file:///usr/local/go/src/net/http/server.go" />
     <entry file="file://$PROJECT_DIR$/user.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="176" column="44" lean-forward="true" selection-start-line="176" selection-start-column="39" selection-end-line="176" selection-end-column="44" />
+        <state relative-caret-position="1126">
+          <caret line="176" column="44" selection-start-line="176" selection-start-column="39" selection-end-line="176" selection-end-column="44" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="56">
-          <caret line="271" column="6" selection-start-line="271" selection-start-column="6" selection-end-line="271" selection-end-column="6" />
+        <state relative-caret-position="177">
+          <caret line="289" column="12" lean-forward="true" selection-start-line="289" selection-start-column="12" selection-end-line="289" selection-end-column="12" />
           <folding>
             <element signature="e#14#366#0" expanded="true" />
           </folding>

@@ -22,7 +22,7 @@ import (
 	"io"
 )
 const (
-	DISTANCE = "200km"
+	DISTANCE = "2000000km"
 	INDEX = "around"
 	TYPE = "post"
 	PROJECT_ID = "around-220220"
@@ -269,7 +269,6 @@ func handlerSearch(w http.ResponseWriter, r *http.Request) {
 		ran = val+"km"
 	}
 	//fmt.Fprintf(w, "Search received : lat = %f, lat = %f, range = %s\n", lat, lon, ran)
-	//fmt.Println("Search received : lat = %f, lat = %f, range = %s\n", lat, lon, ran)
 
 	// Create a client
 	client, err := elastic.NewClient(elastic.SetURL(ES_URL), elastic.SetSniff(false))
