@@ -21,16 +21,16 @@ import (
 	"github.com/gorilla/mux"
 	"io"
 )
+
 const (
-	DISTANCE = "2000000km"
-	INDEX = "around"
-	TYPE = "post"
-	PROJECT_ID = "around-220220"
+	DISTANCE    = "2000000km"
+	INDEX       = "around"
+	TYPE        = "post"
+	PROJECT_ID  = "around-220220"
 	BT_INSTANCE = "around-post"
 	//Needs to update this URL if deploy it to cloud
-	ES_URL = "http://35.231.195.31:9200/"
+	ES_URL      = "http://35.231.195.31:9200/"
 	BUCKET_NAME = "post-images-220220"
-
 )
 
 type Location struct {
@@ -39,10 +39,10 @@ type Location struct {
 }
 
 type Post struct {
-	User string `json:"user"`
-	Message string `json:"message"`
+	User     string   `json:"user"`
+	Message  string   `json:"message"`
 	Location Location `json:"location"`
-	Url string `json:"url"`
+	Url      string   `json:"url"`
 }
 
 var mySigningKey = []byte("secret")
@@ -50,7 +50,7 @@ var mySigningKey = []byte("secret")
 func main() {
 	// Create a client
 	client, err := elastic.NewClient(elastic.SetURL(ES_URL), elastic.SetSniff(false))
-	if err != nil{
+	if err != nil {
 		panic(err)
 		return
 	}
@@ -63,6 +63,7 @@ func main() {
 
 	if !exists {
 		// Create a new index
+		fmt.Println("Create a new index %s", INDEX)
 		mapping := `{
 			"mappings":{
 				"post":{
@@ -83,22 +84,22 @@ func main() {
 	}
 	fmt.Println("started-service")
 	// Here we are instantiating the gorilla/mux router
-    r := mux.NewRouter()
+	r := mux.NewRouter()
 
-    var jwtMiddleware = jwtmiddleware.New(jwtmiddleware.Options{
-      ValidationKeyGetter: func(token *jwt.Token) (interface{}, error) {
-      return mySigningKey, nil
-      },
-      SigningMethod: jwt.SigningMethodHS256,
-    })
+	var jwtMiddleware = jwtmiddleware.New(jwtmiddleware.Options{
+		ValidationKeyGetter: func(token *jwt.Token) (interface{}, error) {
+			return mySigningKey, nil
+		},
+		SigningMethod: jwt.SigningMethodHS256,
+	})
 
-    r.Handle("/post", jwtMiddleware.Handler(http.HandlerFunc(handlerPost))).Methods("POST", "OPTIONS")
-    r.Handle("/search", jwtMiddleware.Handler(http.HandlerFunc(handlerSearch))).Methods("GET", "OPTIONS")
-    r.Handle("/login", http.HandlerFunc(loginHandler)).Methods("POST", "OPTIONS")
-    r.Handle("/signup", http.HandlerFunc(signupHandler)).Methods("POST", "OPTIONS")
+	r.Handle("/post", jwtMiddleware.Handler(http.HandlerFunc(handlerPost))).Methods("POST", "OPTIONS")
+	r.Handle("/search", jwtMiddleware.Handler(http.HandlerFunc(handlerSearch))).Methods("GET", "OPTIONS")
+	r.Handle("/login", http.HandlerFunc(loginHandler)).Methods("POST", "OPTIONS")
+	r.Handle("/signup", http.HandlerFunc(signupHandler)).Methods("POST", "OPTIONS")
 
-    http.Handle("/", r)
-    log.Fatal(http.ListenAndServe(":8080", nil))
+	http.Handle("/", r)
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
 func handlerPost(w http.ResponseWriter, r *http.Request) {
@@ -127,7 +128,7 @@ func handlerPost(w http.ResponseWriter, r *http.Request) {
 	lon, _ := strconv.ParseFloat(r.FormValue("lon"), 64)
 
 	p := &Post{
-		User: username.(string),
+		User:    username.(string),
 		Message: r.FormValue("message"),
 		Location: Location{
 			Lat: lat,
@@ -187,7 +188,7 @@ func handlerPost(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Printf("Post is saved to BigTable %s/n", p.Message)*/
 }
-func saveToES(p *Post, id string){
+func saveToES(p *Post, id string) {
 	// Create a client
 	es_client, err := elastic.NewClient(elastic.SetURL(ES_URL), elastic.SetSniff(false))
 	if err != nil {
@@ -197,12 +198,12 @@ func saveToES(p *Post, id string){
 
 	// Save it to index
 	_, err = es_client.Index().
-			Index(INDEX).
-			Type(TYPE).
-			Id(id).
-			BodyJson(p).
-			Refresh(true).
-			Do()
+		Index(INDEX).
+		Type(TYPE).
+		Id(id).
+		BodyJson(p).
+		Refresh(true).
+		Do()
 	if err != nil {
 		panic(err)
 		return
@@ -210,37 +211,36 @@ func saveToES(p *Post, id string){
 	fmt.Printf("Post is saved to Index: %s \n", p.Message)
 }
 
-func saveToGCS(ctx context.Context, r io.Reader, bucket, name string)(*storage.ObjectHandle, *storage.ObjectAttrs, error){
+func saveToGCS(ctx context.Context, r io.Reader, bucket, name string) (*storage.ObjectHandle, *storage.ObjectAttrs, error) {
 	client, err := storage.NewClient(ctx)
 	if err != nil {
-			return nil,nil,err
+		return nil, nil, err
 	}
 	defer client.Close()
 
 	bh := client.Bucket(bucket)
 	//Next check if the bucket exists
-	if _,err = bh.Attrs(ctx); err != nil {
-		return nil,nil,err
+	if _, err = bh.Attrs(ctx); err != nil {
+		return nil, nil, err
 	}
 
 	obj := bh.Object(name)
 	w := obj.NewWriter(ctx)
 	if _, err := io.Copy(w, r); err != nil {
-		return nil,nil,err
+		return nil, nil, err
 	}
 	if err := w.Close(); err != nil {
-		return nil,nil,err
+		return nil, nil, err
 	}
 
-	if  err := obj.ACL().Set(ctx, storage.AllUsers, storage.RoleReader); err != nil {
-		return nil,nil,err
+	if err := obj.ACL().Set(ctx, storage.AllUsers, storage.RoleReader); err != nil {
+		return nil, nil, err
 	}
 
 	attrs, err := obj.Attrs(ctx)
 	fmt.Printf("Post is saved to GCS: %s\n", attrs.MediaLink)
 	return obj, attrs, err
 }
-
 
 func handlerSearch(w http.ResponseWriter, r *http.Request) {
 	if (*r).Method == "OPTIONS" { // handle preflight request
@@ -261,19 +261,20 @@ func handlerSearch(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println("Received one request for search")
-	lat,_ := strconv.ParseFloat(r.URL.Query().Get("lat"),64)
-	lon,_ := strconv.ParseFloat(r.URL.Query().Get("lon"),64)
+	lat, _ := strconv.ParseFloat(r.URL.Query().Get("lat"), 64)
+	lon, _ := strconv.ParseFloat(r.URL.Query().Get("lon"), 64)
 	// range is optional
 	ran := DISTANCE
 	if val := r.URL.Query().Get("range"); val != "" {
-		ran = val+"km"
+		ran = val + "km"
 	}
 	//fmt.Fprintf(w, "Search received : lat = %f, lat = %f, range = %s\n", lat, lon, ran)
 
 	// Create a client
 	client, err := elastic.NewClient(elastic.SetURL(ES_URL), elastic.SetSniff(false))
 	if err != nil {
-		panic(err);
+		fmt.Println("Error when create NewClient for elasticSearch")
+		panic(err)
 		return
 	}
 
@@ -290,6 +291,7 @@ func handlerSearch(w http.ResponseWriter, r *http.Request) {
 		Do()
 	if err != nil {
 		// Handel error
+		fmt.Println("Error when elasticSearching")
 		panic(err)
 	}
 
@@ -297,7 +299,7 @@ func handlerSearch(w http.ResponseWriter, r *http.Request) {
 	// and all kinds of other information from Elasticsearch
 	fmt.Printf("Query took %d milliseconds\n", searchResult.TookInMillis)
 	//TotalHits is another convenience function that works even when something goes wrong
-	fmt.Printf("Found a total of %d post\n", searchResult.TotalHits())
+	fmt.Printf("Found a total of %d post in range of range %s\n", searchResult.TotalHits(), ran)
 
 	//Each is a convenience function that iterates over hits in a search result.
 	//It makes sure you don't need to check for nil values in the response
@@ -305,11 +307,13 @@ func handlerSearch(w http.ResponseWriter, r *http.Request) {
 
 	var typ Post
 	var ps []Post
-	for _, item := range searchResult.Each(reflect.TypeOf(typ)){	// instances of
-		p := item.(Post)	// p = (Post) item
+	for _, item := range searchResult.Each(reflect.TypeOf(typ)) { // instances of
+		p := item.(Post) // p = (Post) item
 		fmt.Printf("Post by %s: %s at lat %v and lon %v\n", p.User, p.Message, p.Location.Lat, p.Location.Lon)
 		//Perform filtering base based on keywords such as web spam etc.
-		ps = append(ps, p)
+		if (p.Url != "") {
+			ps = append(ps, p)
+		}
 	}
 	js, err := json.Marshal(ps)
 
@@ -317,7 +321,6 @@ func handlerSearch(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 		return
 	}
-
 
 	w.Write(js)
 	/*
